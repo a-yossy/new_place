@@ -9,6 +9,8 @@
     "clean": "farm clean"
   },
   "dependencies": {
+    "@mantine/core": "^7.17.2",
+    "@mantine/hooks": "^7.17.2",
     "react": "18",
     "react-dom": "18"
   },
@@ -17,8 +19,8 @@
     "@farmfe/core": "^1.6.7",
     "@farmfe/plugin-react": "^1.2.0",
     "@types/react": "18",
-    "core-js": "^3.36.1",
     "@types/react-dom": "18",
+    "core-js": "^3.36.1",
     "react-refresh": "^0.14.0"
   }
 }
