@@ -11,16 +11,23 @@
   "dependencies": {
     "@mantine/core": "^7.17.2",
     "@mantine/hooks": "^7.17.2",
+    "@tanstack/react-router": "^1.114.27",
     "react": "18",
     "react-dom": "18"
   },
   "devDependencies": {
+    "@biomejs/biome": "1.9.4",
     "@farmfe/cli": "^1.0.4",
     "@farmfe/core": "^1.6.7",
     "@farmfe/plugin-react": "^1.2.0",
+    "@tanstack/react-router-devtools": "^1.114.27",
+    "@tanstack/router-plugin": "^1.114.27",
     "@types/react": "18",
     "@types/react-dom": "18",
     "core-js": "^3.36.1",
     "react-refresh": "^0.14.0"
+  },
+  "volta": {
+    "node": "22.14.0"
   }
 }
