@@ -9,10 +9,11 @@ use mutation::MutationRoot;
 use query::QueryRoot;
 use tokio::net::TcpListener;
 
-mod date;
 mod mutation;
 mod query;
 mod resignation;
+mod scalars;
+mod validations;
 
 async fn graphiql() -> impl IntoResponse {
     Html(GraphiQLSource::build().endpoint("/graphql").finish())

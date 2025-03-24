@@ -1,6 +1,6 @@
 use async_graphql::SimpleObject;
 
-use crate::date::Date;
+use crate::scalars::date::Date;
 
 #[derive(SimpleObject)]
 pub struct Resignation {

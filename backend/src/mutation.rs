@@ -2,8 +2,7 @@ use async_graphql::{InputObject, Object, Result};
 use chrono::Local;
 
 use crate::{
-    date::{Date, FutureDateValidator},
-    resignation::Resignation,
+    resignation::Resignation, scalars::date::Date, validations::date::FutureDateValidator,
 };
 
 pub struct MutationRoot;
