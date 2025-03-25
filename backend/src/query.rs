@@ -19,7 +19,7 @@ impl QueryRoot {
         Resignation::new(
             Date(NaiveDate::from_ymd_opt(2025, 4, 30).unwrap()),
             40,
-            DateTime(Utc::now()),
+            DateTime(Utc::now().into()),
         )
     }
 }

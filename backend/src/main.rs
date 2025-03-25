@@ -7,6 +7,7 @@ use axum::{
 };
 use mutation::MutationRoot;
 use query::QueryRoot;
+use sqlx::mysql::MySqlPoolOptions;
 use tokio::net::TcpListener;
 
 mod mutation;
@@ -20,11 +21,24 @@ async fn graphiql() -> impl IntoResponse {
 }
 
 #[tokio::main]
-async fn main() {
-    let schema = Schema::build(QueryRoot, MutationRoot, EmptySubscription).finish();
+async fn main() -> Result<(), sqlx::Error> {
+    let database_url = dotenv::var("DATABASE_URL").unwrap();
+    let pool = MySqlPoolOptions::new()
+        .max_connections(5)
+        .connect(&database_url)
+        .await
+        .unwrap();
 
-    let app = Router::new().route("/graphql", get(graphiql).post_service(GraphQL::new(schema)));
+    let schema = Schema::build(QueryRoot, MutationRoot, EmptySubscription)
+        .data(pool.clone())
+        .finish();
+
+    let app = Router::new()
+        .route("/graphql", get(graphiql).post_service(GraphQL::new(schema)))
+        .with_state(pool);
     axum::serve(TcpListener::bind("127.0.0.1:8000").await.unwrap(), app)
         .await
         .unwrap();
+
+    Ok(())
 }

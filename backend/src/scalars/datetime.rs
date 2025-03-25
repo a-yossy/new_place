@@ -1,15 +1,23 @@
 use async_graphql::{InputValueError, InputValueResult, Scalar, ScalarType, Value};
-use chrono::{DateTime as ChronoDateTime, Utc};
+use chrono::{DateTime as ChronoDateTime, FixedOffset, Utc};
 
-#[derive(Debug, PartialEq)]
-pub struct DateTime(pub ChronoDateTime<Utc>);
+#[derive(Debug, PartialEq, PartialOrd)]
+pub struct DateTime(pub ChronoDateTime<FixedOffset>);
+
+impl DateTime {
+    pub fn now() -> Self {
+        let tokyo_offset = FixedOffset::east_opt(9 * 3600).unwrap();
+
+        DateTime(Utc::now().with_timezone(&tokyo_offset))
+    }
+}
 
 #[Scalar]
 impl ScalarType for DateTime {
     fn parse(value: Value) -> InputValueResult<Self> {
         if let Value::String(value) = &value {
             let datetime = value
-                .parse::<ChronoDateTime<Utc>>()
+                .parse::<ChronoDateTime<FixedOffset>>()
                 .map_err(|e| InputValueError::custom(format!("無効な DateTime: {}", e)))?;
             Ok(DateTime(datetime))
         } else {
