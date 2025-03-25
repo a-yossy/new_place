@@ -13,8 +13,8 @@ impl FutureDateValidator {
 
 impl CustomValidator<Date> for FutureDateValidator {
     fn check(&self, value: &Date) -> Result<(), InputValueError<Date>> {
-        let today = Local::now().date_naive();
-        if value.0.gt(&today) {
+        let today = Date(Local::now().date_naive());
+        if value.gt(&today) {
             Ok(())
         } else {
             Err(InputValueError::custom(format!(
