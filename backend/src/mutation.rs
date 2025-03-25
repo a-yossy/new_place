@@ -1,5 +1,4 @@
 use async_graphql::{InputObject, Object, Result};
-use chrono::Local;
 
 use crate::{
     resignation::Resignation, scalars::date::Date, validations::date::FutureDateValidator,
@@ -9,7 +8,7 @@ pub struct MutationRoot;
 
 #[derive(InputObject)]
 struct PostResignationInput {
-    #[graphql(validator(custom = "FutureDateValidator::new(Date(Local::now().date_naive()))"))]
+    #[graphql(validator(custom = "FutureDateValidator::new()"))]
     retirement_date: Date,
     remaining_paid_leave_days: u32,
 }
