@@ -2,8 +2,8 @@ use async_graphql::{Context, InputObject, Object, Result};
 use sqlx::{MySql, Pool};
 
 use crate::{
-    resignation::Resignation,
-    scalars::{date::Date, datetime::DateTime},
+    graphql::objects::resignation::Resignation,
+    graphql::scalars::{date::Date, datetime::DateTime},
     validations::date::FutureDateValidator,
 };
 
@@ -34,7 +34,7 @@ impl MutationRoot {
             "#,
             input.retirement_date.0.to_string(),
             input.remaining_paid_leave_days,
-            now.0.naive_utc().to_string(),
+            now.0.format("%Y-%m-%d %H:%M:%S").to_string()
         )
         .execute(pool)
         .await?;

@@ -1,7 +1,7 @@
 use async_graphql::{CustomValidator, InputValueError};
 use chrono::Local;
 
-use crate::scalars::date::Date;
+use crate::graphql::scalars::date::Date;
 
 pub struct FutureDateValidator;
 

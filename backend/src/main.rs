@@ -10,10 +10,10 @@ use query::QueryRoot;
 use sqlx::mysql::MySqlPoolOptions;
 use tokio::net::TcpListener;
 
+mod graphql;
+mod models;
 mod mutation;
 mod query;
-mod resignation;
-mod scalars;
 mod validations;
 
 async fn graphiql() -> impl IntoResponse {
