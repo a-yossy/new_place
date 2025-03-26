@@ -11,7 +11,7 @@ pub struct MutationRoot;
 
 #[derive(InputObject)]
 struct PostResignationInput {
-    #[graphql(validator(custom = "FutureDateValidator::new()"))]
+    #[graphql(validator(custom = "FutureDateValidator"))]
     retirement_date: Date,
     remaining_paid_leave_days: u32,
 }

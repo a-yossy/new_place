@@ -5,16 +5,10 @@ use axum::{
     response::{Html, IntoResponse},
     routing::get,
 };
-use mutation::MutationRoot;
-use query::QueryRoot;
+use backend::mutation::MutationRoot;
+use backend::query::QueryRoot;
 use sqlx::mysql::MySqlPoolOptions;
 use tokio::net::TcpListener;
-
-mod graphql;
-mod models;
-mod mutation;
-mod query;
-mod validations;
 
 async fn graphiql() -> impl IntoResponse {
     Html(GraphiQLSource::build().endpoint("/graphql").finish())

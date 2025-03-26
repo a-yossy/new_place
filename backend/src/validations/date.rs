@@ -5,12 +5,6 @@ use crate::graphql::scalars::date::Date;
 
 pub struct FutureDateValidator;
 
-impl FutureDateValidator {
-    pub fn new() -> Self {
-        Self
-    }
-}
-
 impl CustomValidator<Date> for FutureDateValidator {
     fn check(&self, value: &Date) -> Result<(), InputValueError<Date>> {
         let today = Date(Local::now().date_naive());
@@ -34,7 +28,7 @@ mod tests {
     #[test]
     fn 日付が明日の場合_エラーにならないこと() {
         let tomorrow = Date(Local::now().date_naive() + Duration::days(1));
-        let validator = FutureDateValidator::new();
+        let validator = FutureDateValidator;
 
         let result = validator.check(&tomorrow);
 
@@ -44,7 +38,7 @@ mod tests {
     #[test]
     fn 日付が今日の場合_エラーになること() {
         let today = Date(Local::now().date_naive());
-        let validator = FutureDateValidator::new();
+        let validator = FutureDateValidator;
 
         let result = validator.check(&today);
 
@@ -54,7 +48,7 @@ mod tests {
     #[test]
     fn 日付が昨日の場合_エラーになること() {
         let today = Date(Local::now().date_naive() + Duration::days(-1));
-        let validator = FutureDateValidator::new();
+        let validator = FutureDateValidator;
 
         let result = validator.check(&today);
 
