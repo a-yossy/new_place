@@ -5,8 +5,8 @@ use axum::{
     response::{Html, IntoResponse},
     routing::get,
 };
-use backend::mutation::MutationRoot;
-use backend::query::QueryRoot;
+use backend::graphql::mutation::MutationRoot;
+use backend::graphql::query::QueryRoot;
 use sqlx::mysql::MySqlPoolOptions;
 use tokio::net::TcpListener;
 
