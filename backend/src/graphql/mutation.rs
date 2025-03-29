@@ -1,4 +1,4 @@
-use async_graphql::{Context, InputObject, Object, Result};
+use async_graphql::{Context, ID, InputObject, Object, Result};
 use sqlx::{MySql, Pool};
 
 use crate::{
@@ -25,7 +25,7 @@ impl MutationRoot {
     ) -> Result<Resignation> {
         let pool = ctx.data::<Pool<MySql>>().unwrap();
         let now = DateTime::now();
-        sqlx::query!(
+        let id = sqlx::query!(
             r#"
             INSERT INTO
                 resignation (retirement_date, remaining_paid_leave_days, created_at)
@@ -37,10 +37,15 @@ impl MutationRoot {
             now.0.format("%Y-%m-%d %H:%M:%S").to_string()
         )
         .execute(pool)
-        .await?;
+        .await?
+        .last_insert_id();
 
-        let resignation =
-            Resignation::new(input.retirement_date, input.remaining_paid_leave_days, now);
+        let resignation = Resignation::new(
+            ID(id.to_string()),
+            input.retirement_date,
+            input.remaining_paid_leave_days,
+            now,
+        );
 
         Ok(resignation)
     }

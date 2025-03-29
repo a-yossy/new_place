@@ -1,4 +1,4 @@
-use async_graphql::{Context, Object, Result, SimpleObject};
+use async_graphql::{Context, ID, Object, Result, SimpleObject};
 use sqlx::{MySql, Pool};
 
 use crate::{
@@ -22,7 +22,7 @@ impl QueryRoot {
             ResignationModel,
             r#"
                 SELECT
-                    retirement_date, remaining_paid_leave_days, created_at
+                    id, retirement_date, remaining_paid_leave_days, created_at
                 FROM
                     resignation
                 ORDER BY
@@ -34,6 +34,7 @@ impl QueryRoot {
         .await?;
 
         Ok(ResignationObject::new(
+            ID(resignation.id.to_string()),
             Date(resignation.retirement_date),
             resignation.remaining_paid_leave_days,
             DateTime(resignation.created_at),

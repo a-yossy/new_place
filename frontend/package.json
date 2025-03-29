@@ -12,8 +12,10 @@
     "@mantine/core": "^7.17.2",
     "@mantine/hooks": "^7.17.2",
     "@tanstack/react-router": "^1.114.27",
+    "graphql": "^16.10.0",
     "react": "18",
-    "react-dom": "18"
+    "react-dom": "18",
+    "urql": "^4.2.2"
   },
   "devDependencies": {
     "@biomejs/biome": "1.9.4",
