@@ -5,9 +5,9 @@ use crate::{
     graphql::{
         objects::resignation::Resignation as ResignationObject,
         scalars::{date::Date, datetime::DateTime},
+        validations::date::FutureDateValidator,
     },
     models::resignation::{Resignation as ResignationModel, ResignationInput},
-    validations::date::FutureDateValidator,
 };
 
 #[derive(Default)]
