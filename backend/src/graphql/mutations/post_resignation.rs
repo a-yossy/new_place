@@ -27,7 +27,7 @@ impl PostResignationMutation {
         ctx: &Context<'_>,
         input: PostResignationInput,
     ) -> Result<ResignationObject> {
-        let pool = ctx.data::<Pool<MySql>>().unwrap();
+        let pool = ctx.data::<Pool<MySql>>()?;
         let resignation_input = ResignationInput {
             retirement_date: input.retirement_date.0,
             remaining_paid_leave_days: input.remaining_paid_leave_days,
@@ -49,6 +49,7 @@ impl PostResignationMutation {
 mod tests {
     use std::fs;
 
+    use anyhow::{Ok, Result};
     use axum::{
         body::Body,
         http::{Request, StatusCode},
@@ -62,21 +63,18 @@ mod tests {
     use crate::{models::resignation::Resignation, tests::utils::client::client};
 
     #[sqlx::test]
-    async fn post_resignation_200(pool: MySqlPool) {
+    async fn post_resignation_200(pool: MySqlPool) -> Result<()> {
         let resignations = sqlx::query_as!(
             Resignation,
             "SELECT id, created_at, remaining_paid_leave_days, retirement_date FROM resignation"
         )
         .fetch_all(&pool)
-        .await
-        .unwrap();
+        .await?;
         assert_eq!(resignations.len(), 0);
         let (addr, client) = client(pool.clone()).await;
-        let query = parse_query::<String>(
-            &fs::read_to_string("graphql/mutations/resignation.gql").unwrap(),
-        )
-        .unwrap()
-        .to_string();
+        let query =
+            parse_query::<String>(&fs::read_to_string("graphql/mutations/resignation.gql")?)?
+                .to_string();
         let variables = json!({
             "input": {
                 "retirementDate": "9999-01-01",
@@ -97,15 +95,13 @@ mod tests {
                             "variables": variables
                         })
                         .to_string(),
-                    ))
-                    .unwrap(),
+                    ))?,
             )
-            .await
-            .unwrap();
+            .await?;
 
         assert_eq!(response.status(), StatusCode::OK);
-        let bytes = response.into_body().collect().await.unwrap().to_bytes();
-        let body: Value = serde_json::from_slice(&bytes).unwrap();
+        let bytes = response.into_body().collect().await?.to_bytes();
+        let body: Value = serde_json::from_slice(&bytes)?;
         assert!(body.is_object());
         assert!(body.get("errors").is_none());
         let data = &body["data"];
@@ -126,32 +122,30 @@ mod tests {
             "SELECT id, created_at, remaining_paid_leave_days, retirement_date FROM resignation"
         )
         .fetch_all(&pool)
-        .await
-        .unwrap();
+        .await?;
         assert_eq!(resignations.len(), 1);
         assert_eq!(resignations.first().unwrap().remaining_paid_leave_days, 10);
         assert_eq!(
             resignations.first().unwrap().retirement_date,
             NaiveDate::from_ymd_opt(9999, 1, 1).unwrap()
         );
+
+        Ok(())
     }
 
     #[sqlx::test]
-    async fn post_resignation_200_error(pool: MySqlPool) {
+    async fn post_resignation_200_error(pool: MySqlPool) -> Result<()> {
         let resignations = sqlx::query_as!(
             Resignation,
             "SELECT id, created_at, remaining_paid_leave_days, retirement_date FROM resignation"
         )
         .fetch_all(&pool)
-        .await
-        .unwrap();
+        .await?;
         assert_eq!(resignations.len(), 0);
         let (addr, client) = client(pool.clone()).await;
-        let query = parse_query::<String>(
-            &fs::read_to_string("graphql/mutations/resignation.gql").unwrap(),
-        )
-        .unwrap()
-        .to_string();
+        let query =
+            parse_query::<String>(&fs::read_to_string("graphql/mutations/resignation.gql")?)?
+                .to_string();
         let variables = json!({
             "input": {
                 "retirementDate": "2000-01-01",
@@ -172,15 +166,13 @@ mod tests {
                             "variables": variables
                         })
                         .to_string(),
-                    ))
-                    .unwrap(),
+                    ))?,
             )
-            .await
-            .unwrap();
+            .await?;
 
         assert_eq!(response.status(), StatusCode::OK);
-        let bytes = response.into_body().collect().await.unwrap().to_bytes();
-        let body: Value = serde_json::from_slice(&bytes).unwrap();
+        let bytes = response.into_body().collect().await?.to_bytes();
+        let body: Value = serde_json::from_slice(&bytes)?;
         assert!(body.is_object());
         let data = &body["data"];
         assert!(data.is_null());
@@ -192,8 +184,9 @@ mod tests {
             "SELECT id, created_at, remaining_paid_leave_days, retirement_date FROM resignation"
         )
         .fetch_all(&pool)
-        .await
-        .unwrap();
+        .await?;
         assert_eq!(resignations.len(), 0);
+
+        Ok(())
     }
 }
