@@ -1,4 +1,7 @@
-use chrono::{NaiveDate, NaiveDateTime};
+use std::collections::HashMap;
+
+use anyhow::{Context, Result as AnyhowResult, anyhow};
+use chrono::{Datelike, Days, NaiveDate, NaiveDateTime, Weekday};
 use sqlx::{MySql, Pool, Result};
 
 use crate::utils::time::now;
@@ -68,6 +71,40 @@ impl Resignation {
         .await?;
 
         Ok(resignation)
+    }
+
+    pub async fn vacation_start_date(
+        &self,
+        holidays: &HashMap<String, String>,
+    ) -> AnyhowResult<NaiveDate> {
+        let mut vacation_start_date = self.retirement_date;
+        let mut remaining_paid_leave_days = self.remaining_paid_leave_days;
+
+        if remaining_paid_leave_days == 0 {
+            return Err(anyhow!("有給がありません"));
+        }
+
+        remaining_paid_leave_days -= 1;
+
+        while remaining_paid_leave_days > 0 {
+            let new_date = vacation_start_date
+                .checked_sub_days(Days::new(1))
+                .context("invalid date")?;
+            vacation_start_date = new_date;
+            if holidays.contains_key(&new_date.to_string()) {
+                continue;
+            }
+            if new_date.weekday() == Weekday::Sat {
+                continue;
+            }
+            if new_date.weekday() == Weekday::Sun {
+                continue;
+            }
+
+            remaining_paid_leave_days -= 1;
+        }
+
+        Ok(vacation_start_date)
     }
 }
 
