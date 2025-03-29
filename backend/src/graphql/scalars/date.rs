@@ -26,6 +26,7 @@ impl ScalarType for Date {
 mod tests {
     use super::*;
     use async_graphql::Value;
+    use serde_json::Number;
 
     #[test]
     fn parse_有効な日付の場合_エラーにならないこと() {
@@ -43,6 +44,15 @@ mod tests {
     #[test]
     fn parse_無効な日付の場合_エラーになること() {
         let value = Value::String("2025-01-32".to_string());
+
+        let result = Date::parse(value);
+
+        assert!(result.is_err());
+    }
+
+    #[test]
+    fn parse_文字列以外の場合_エラーになること() {
+        let value = Value::Number(Number::from_i128(20250101).unwrap());
 
         let result = Date::parse(value);
 
