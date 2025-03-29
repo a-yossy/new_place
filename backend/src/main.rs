@@ -45,12 +45,13 @@ async fn main() -> Result<(), sqlx::Error> {
 
 #[cfg(test)]
 mod tests {
-    use std::net::SocketAddr;
+    use std::{fs, net::SocketAddr};
 
     use axum::{
         body::Body,
         http::{Request, StatusCode},
     };
+    use graphql_parser::parse_query;
     use http_body_util::BodyExt;
     use hyper_util::client::legacy::{Client, connect::HttpConnector};
     use serde_json::{Value, json};
@@ -75,6 +76,11 @@ mod tests {
     #[sqlx::test(fixtures("resignations"))]
     async fn resignation_200(pool: MySqlPool) {
         let (addr, client) = client(pool).await;
+        let query = parse_query::<String>(
+            &fs::read_to_string("src/graphql/queries/resignation.gql").unwrap(),
+        )
+        .unwrap()
+        .to_string();
 
         let response = client
             .request(
@@ -83,9 +89,7 @@ mod tests {
                     .uri(format!("http://{addr}/graphql"))
                     .header("Host", "localhost")
                     .header("Content-Type", "application/json")
-                    .body(Body::from(
-                        r#"{"query":"query { resignation { id retirementDate remainingPaidLeaveDays createdAt } }"}"#,
-                    ))
+                    .body(Body::from(json!({"query": query}).to_string()))
                     .unwrap(),
             )
             .await

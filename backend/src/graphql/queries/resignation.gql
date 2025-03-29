@@ -1,0 +1,8 @@
+query {
+  resignation {
+    id
+    retirementDate
+    remainingPaidLeaveDays
+    createdAt
+  }
+}
