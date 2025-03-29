@@ -10,8 +10,11 @@
   },
   "dependencies": {
     "@mantine/core": "^7.17.2",
+    "@mantine/dates": "^7.17.3",
+    "@mantine/form": "^7.17.3",
     "@mantine/hooks": "^7.17.2",
     "@tanstack/react-router": "^1.114.27",
+    "dayjs": "^1.11.13",
     "graphql": "^16.10.0",
     "react": "18",
     "react-dom": "18",

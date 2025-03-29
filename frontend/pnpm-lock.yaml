@@ -11,12 +11,21 @@ importers:
       '@mantine/core':
         specifier: ^7.17.2
         version: 7.17.2(@mantine/hooks@7.17.2(react@18.3.1))(@types/react@18.3.19)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      '@mantine/dates':
+        specifier: ^7.17.3
+        version: 7.17.3(@mantine/core@7.17.2(@mantine/hooks@7.17.2(react@18.3.1))(@types/react@18.3.19)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(@mantine/hooks@7.17.2(react@18.3.1))(dayjs@1.11.13)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      '@mantine/form':
+        specifier: ^7.17.3
+        version: 7.17.3(react@18.3.1)
       '@mantine/hooks':
         specifier: ^7.17.2
         version: 7.17.2(react@18.3.1)
       '@tanstack/react-router':
         specifier: ^1.114.27
         version: 1.114.27(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      dayjs:
+        specifier: ^1.11.13
+        version: 1.11.13
       graphql:
         specifier: ^16.10.0
         version: 16.10.0
@@ -605,6 +614,20 @@ packages:
       react: ^18.x || ^19.x
       react-dom: ^18.x || ^19.x
 
+  '@mantine/dates@7.17.3':
+    resolution: {integrity: sha512-gegLSlK7mi3jAaL/JMLdy6oK9CmY08nXoLvbeO03i+751bmbbbzpoFAaxMzbR6vkP9tPuoapOxJqgDzn2Jm+Dw==}
+    peerDependencies:
+      '@mantine/core': 7.17.3
+      '@mantine/hooks': 7.17.3
+      dayjs: '>=1.0.0'
+      react: ^18.x || ^19.x
+      react-dom: ^18.x || ^19.x
+
+  '@mantine/form@7.17.3':
+    resolution: {integrity: sha512-ktERldD8f9lrjjz6wIbwMnNbAZq8XEWPx4K5WuFyjXaK0PI8D+gsXIGKMtA5rVrAUFHCWCdbK3yLgtjJNki8ew==}
+    peerDependencies:
+      react: ^18.x || ^19.x
+
   '@mantine/hooks@7.17.2':
     resolution: {integrity: sha512-tbErVcGZu0E4dSmE6N0k6Tv1y9R3SQmmQgwqorcc+guEgKMdamc36lucZGlJnSGUmGj+WLUgELkEQ0asdfYBDA==}
     peerDependencies:
@@ -947,6 +970,9 @@ packages:
   csstype@3.1.3:
     resolution: {integrity: sha512-M1uQkMl8rQK/szD0LNhtqxIPLpimGm8sOBwU7lLnCpSbTyY3yeU1Vc7l4KT5zT4s/yOxHH5O7tIuuLOCnLADRw==}
 
+  dayjs@1.11.13:
+    resolution: {integrity: sha512-oaMBel6gjolK862uaPQOVTA7q3TZhuSvuMQAAglQDOWYO9A91IrAOUJEyKVlqJlHE0vq5p5UXxzdPfMH/x6xNg==}
+
   debug@3.2.7:
     resolution: {integrity: sha512-CFjzYYAi4ThfiQvizrFQevTTXHtnCqWfe7x1AhgEscTz6ZbLbfoLRLPugTQyBth6f8ZERVUSyWHFD/7Wu4t1XQ==}
     peerDependencies:
@@ -1160,6 +1186,9 @@ packages:
 
   farm-plugin-replace-dirname@0.2.1:
     resolution: {integrity: sha512-aJ4euQzxoq0sVu4AwXrNQflHJrSZdrdApGEyVRtN6KiCop3CHXnTg9ydlyCNXN2unQB283aNjojvCd5E/32KgA==}
+
+  fast-deep-equal@3.1.3:
+    resolution: {integrity: sha512-f3qQ9oQy9j2AhBe/H9VC91wLmKBCCU/gDOnKNAYG5hswO7BLKj09Hc5HYNz9cGI++xlpDCIgDaitVs03ATR84Q==}
 
   fast-glob@3.3.3:
     resolution: {integrity: sha512-7MptL8U0cqcFdzIzwOTHoilX9x5BrNqye7Z/LuC7kCMRio1EMSyqRK3BEAUD7sXRq4iT4AzTVuZdhgQ2TCvYLg==}
@@ -1448,6 +1477,10 @@ packages:
   keygrip@1.1.0:
     resolution: {integrity: sha512-iYSchDJ+liQ8iwbSI2QqsQOvqv58eJCEanyJPJi+Khyu8smkcKSFUCbPwzFcL7YVtZ6eONjqRX/38caJ7QjRAQ==}
     engines: {node: '>= 0.6'}
+
+  klona@2.0.6:
+    resolution: {integrity: sha512-dhG34DXATL5hSxJbIexCft8FChFXtmskoZYnoPWjXQuebWYCNkVeV3KkGegCK9CP1oswI/vQibS2GY7Em/sJJA==}
+    engines: {node: '>= 8'}
 
   koa-compose@4.1.0:
     resolution: {integrity: sha512-8ODW8TrDuMYvXRwra/Kh7/rJo9BtOfPc6qO8eAfC80CnCvSjSl0bkRM24X6/XBBEyj0v1nRUQ1LyOy3dbqOWXw==}
@@ -2661,6 +2694,21 @@ snapshots:
     transitivePeerDependencies:
       - '@types/react'
 
+  '@mantine/dates@7.17.3(@mantine/core@7.17.2(@mantine/hooks@7.17.2(react@18.3.1))(@types/react@18.3.19)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(@mantine/hooks@7.17.2(react@18.3.1))(dayjs@1.11.13)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
+    dependencies:
+      '@mantine/core': 7.17.2(@mantine/hooks@7.17.2(react@18.3.1))(@types/react@18.3.19)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      '@mantine/hooks': 7.17.2(react@18.3.1)
+      clsx: 2.1.1
+      dayjs: 1.11.13
+      react: 18.3.1
+      react-dom: 18.3.1(react@18.3.1)
+
+  '@mantine/form@7.17.3(react@18.3.1)':
+    dependencies:
+      fast-deep-equal: 3.1.3
+      klona: 2.0.6
+      react: 18.3.1
+
   '@mantine/hooks@7.17.2(react@18.3.1)':
     dependencies:
       react: 18.3.1
@@ -3025,6 +3073,8 @@ snapshots:
 
   csstype@3.1.3: {}
 
+  dayjs@1.11.13: {}
+
   debug@3.2.7:
     dependencies:
       ms: 2.1.3
@@ -3237,6 +3287,8 @@ snapshots:
       farm-plugin-replace-dirname-win32-arm64-msvc: 0.2.1
       farm-plugin-replace-dirname-win32-ia32-msvc: 0.2.1
       farm-plugin-replace-dirname-win32-x64-msvc: 0.2.1
+
+  fast-deep-equal@3.1.3: {}
 
   fast-glob@3.3.3:
     dependencies:
@@ -3523,6 +3575,8 @@ snapshots:
   keygrip@1.1.0:
     dependencies:
       tsscmp: 1.0.6
+
+  klona@2.0.6: {}
 
   koa-compose@4.1.0: {}
 
