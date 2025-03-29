@@ -1,16 +1,8 @@
 use async_graphql::{InputValueError, InputValueResult, Scalar, ScalarType, Value};
-use chrono::{FixedOffset, NaiveDateTime, Utc};
+use chrono::NaiveDateTime;
 
 #[derive(Debug, PartialEq, PartialOrd)]
 pub struct DateTime(pub NaiveDateTime);
-
-impl DateTime {
-    pub fn now() -> Self {
-        let tokyo_offset = FixedOffset::east_opt(9 * 3600).unwrap();
-
-        DateTime(Utc::now().with_timezone(&tokyo_offset).naive_local())
-    }
-}
 
 #[Scalar]
 impl ScalarType for DateTime {

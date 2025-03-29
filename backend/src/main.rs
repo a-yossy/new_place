@@ -82,13 +82,14 @@ mod tests {
         (addr, client)
     }
 
-    #[sqlx::test(fixtures("resignations"))]
-    async fn resignation_200(pool: MySqlPool) {
+    #[sqlx::test(fixtures("./fixtures/resignation/resignations.sql"))]
+    async fn latest_resignation_200(pool: MySqlPool) {
         let (addr, client) = client(pool).await;
-        let query =
-            parse_query::<String>(&fs::read_to_string("graphql/queries/resignation.gql").unwrap())
-                .unwrap()
-                .to_string();
+        let query = parse_query::<String>(
+            &fs::read_to_string("graphql/queries/latest_resignation.gql").unwrap(),
+        )
+        .unwrap()
+        .to_string();
         let response = client
             .request(
                 Request::builder()
@@ -120,7 +121,7 @@ mod tests {
         );
         assert_eq!(
             *resignation.get("createdAt").unwrap(),
-            json!("2025-02-02 00:00:00")
+            json!("2025-02-01 00:00:00")
         );
     }
 

@@ -2,8 +2,11 @@ use async_graphql::{Context, ID, InputObject, Object, Result};
 use sqlx::{MySql, Pool};
 
 use crate::{
-    graphql::objects::resignation::Resignation,
-    graphql::scalars::{date::Date, datetime::DateTime},
+    graphql::{
+        objects::resignation::Resignation as ResignationObject,
+        scalars::{date::Date, datetime::DateTime},
+    },
+    models::resignation::{Resignation as ResignationModel, ResignationInput},
     validations::date::FutureDateValidator,
 };
 
@@ -22,29 +25,19 @@ impl MutationRoot {
         &self,
         ctx: &Context<'_>,
         input: PostResignationInput,
-    ) -> Result<Resignation> {
+    ) -> Result<ResignationObject> {
         let pool = ctx.data::<Pool<MySql>>().unwrap();
-        let now = DateTime::now();
-        let id = sqlx::query!(
-            r#"
-            INSERT INTO
-                resignation (retirement_date, remaining_paid_leave_days, created_at)
-            VALUES
-                (?, ?, ?)
-            "#,
-            input.retirement_date.0.to_string(),
-            input.remaining_paid_leave_days,
-            now.0.format("%Y-%m-%d %H:%M:%S").to_string()
-        )
-        .execute(pool)
-        .await?
-        .last_insert_id();
+        let resignation_input = ResignationInput {
+            retirement_date: input.retirement_date.0,
+            remaining_paid_leave_days: input.remaining_paid_leave_days,
+        };
+        let resignation = ResignationModel::insert(pool, &resignation_input).await?;
 
-        let resignation = Resignation::new(
-            ID(id.to_string()),
-            input.retirement_date,
+        let resignation = ResignationObject::new(
+            ID(resignation.id.to_string()),
+            Date(resignation.retirement_date),
             input.remaining_paid_leave_days,
-            now,
+            DateTime(resignation.created_at),
         );
 
         Ok(resignation)
