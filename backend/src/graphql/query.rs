@@ -16,7 +16,7 @@ struct Test {
 
 #[Object]
 impl QueryRoot {
-    async fn resignation(&self, ctx: &Context<'_>) -> Result<ResignationObject> {
+    async fn latest_resignation(&self, ctx: &Context<'_>) -> Result<ResignationObject> {
         let pool = ctx.data::<Pool<MySql>>().unwrap();
         let resignation = sqlx::query_as!(
             ResignationModel,

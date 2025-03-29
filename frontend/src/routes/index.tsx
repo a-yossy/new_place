@@ -11,7 +11,7 @@ export const Route = createFileRoute("/")({
 
 const ResignationQuery = gql`
   query {
-    resignation {
+    latestResignation {
       retirementDate
       remainingPaidLeaveDays
     }
@@ -24,7 +24,7 @@ function Index() {
   if (fetching) return <Loader />;
   if (error) return <p>{error.message}</p>;
 
-  const retirementDate = dayjs(data.resignation.retirementDate);
+  const retirementDate = dayjs(data.latestResignation.retirementDate);
 
   return (
     <div className="p-2">
@@ -33,7 +33,7 @@ function Index() {
         value={retirementDate.toDate()}
       />
       <br />
-      有給残日数: {data.resignation.remainingPaidLeaveDays}
+      有給残日数: {data.latestResignation.remainingPaidLeaveDays}
     </div>
   );
 }

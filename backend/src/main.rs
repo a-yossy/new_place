@@ -108,7 +108,7 @@ mod tests {
         assert!(body.is_object());
         let data = &body["data"];
         assert!(data.is_object());
-        let resignation = &data["resignation"];
+        let resignation = &data["latestResignation"];
         assert_eq!(*resignation.get("id").unwrap(), json!("2222"));
         assert_eq!(
             *resignation.get("remainingPaidLeaveDays").unwrap(),
