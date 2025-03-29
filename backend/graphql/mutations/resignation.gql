@@ -1,0 +1,8 @@
+mutation post($input: PostResignationInput!) {
+  postResignation(input: $input) {
+    id
+    retirementDate
+    remainingPaidLeaveDays
+    createdAt
+  }
+}
