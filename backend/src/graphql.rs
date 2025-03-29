@@ -1,4 +1,4 @@
-pub mod mutation;
+pub mod mutations;
 pub mod objects;
-pub mod query;
+pub mod queries;
 pub mod scalars;
