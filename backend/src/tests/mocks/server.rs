@@ -8,6 +8,7 @@ impl MockServer {
     pub async fn new_async() -> Self {
         let opts = ServerOpts {
             host: MOCK_HOST,
+            port: MOCK_PORT,
             ..Default::default()
         };
         let server = Server::new_with_opts_async(opts).await;
