@@ -15,6 +15,7 @@ const ResignationQuery = gql`
       retirementDate
       remainingPaidLeaveDays
     }
+    vacationStartDate
   }
 `;
 
@@ -25,15 +26,23 @@ function Index() {
   if (error) return <p>{error.message}</p>;
 
   const retirementDate = dayjs(data.latestResignation.retirementDate);
+  const paidLeaveStartDate = dayjs(data.vacationStartDate);
 
   return (
     <div className="p-2">
+      退職日
       <DatePicker
         defaultDate={retirementDate.toDate()}
         value={retirementDate.toDate()}
       />
       <br />
       有給残日数: {data.latestResignation.remainingPaidLeaveDays}
+      <br />
+      有給開始日
+      <DatePicker
+        defaultDate={paidLeaveStartDate.toDate()}
+        value={paidLeaveStartDate.toDate()}
+      />
     </div>
   );
 }
