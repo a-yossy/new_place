@@ -1,9 +1,7 @@
-use std::collections::HashMap;
-
 use async_graphql::{EmptySubscription, Schema, http::GraphiQLSource};
 use async_graphql_axum::GraphQL;
 use axum::{
-    Json, Router,
+    Router,
     http::{HeaderValue, Method, header},
     response::{Html, IntoResponse},
     routing::get,
@@ -16,12 +14,6 @@ use crate::graphql::{mutations::root::MutationRoot, queries::root::QueryRoot};
 
 async fn graphiql() -> impl IntoResponse {
     Html(GraphiQLSource::build().endpoint("/graphql").finish())
-}
-
-async fn holidays() -> impl IntoResponse {
-    let mut holidays = HashMap::new();
-    holidays.insert("2025-01-01".to_string(), "休み".to_string());
-    Json(holidays)
 }
 
 pub fn app(pool: MySqlPool) -> Router {
@@ -43,7 +35,6 @@ pub fn app(pool: MySqlPool) -> Router {
 
     Router::new()
         .route("/graphql", get(graphiql).post_service(GraphQL::new(schema)))
-        .route("/holidays", get(holidays))
         .layer(cors)
         .with_state(pool)
 }
