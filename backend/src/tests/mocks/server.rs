@@ -6,14 +6,14 @@ use crate::consts::url::{MOCK_HOST, MOCK_PORT};
 
 type SharedServer = Arc<Mutex<Server>>;
 
-static MOCK_SERVER: OnceCell<SharedServer> = OnceCell::const_new();
+static SHARED_SERVER: OnceCell<SharedServer> = OnceCell::const_new();
 
 #[derive(Clone)]
 pub struct MockServer(pub SharedServer);
 
 impl MockServer {
     pub async fn new_async() -> Self {
-        let server = MOCK_SERVER
+        let server = SHARED_SERVER
             .get_or_init(|| async {
                 let opts = ServerOpts {
                     host: MOCK_HOST,
